@@ -141,11 +141,11 @@ After the initial script run, any `"NA"` entries are manually researched using *
 
 How The Project is organized
 
-|——build_gazetteer.py 
-|——ner_counts.tsv 
-|── gazetteer/
-│ └──  NER_gazetteer.tsv # Output: name, latitude, longitude
-├── README.md # This documentation
+This project contains several key components organized for clarity and functionality. At the top level, there is a Python script named build_gazetteer.py, which is responsible for creating a structured list of place names — also known as a gazetteer — using Named Entity Recognition (NER) or other methods. Alongside this script, you’ll find the file ner_counts.tsv, which stores the output of the NER process. This file lists place names and the number of times each was mentioned in the dataset.
+
+There is also a folder named gazetteer, which contains a file called NER_gazetteer.tsv. This is the final gazetteer file, containing a list of place names along with their latitude and longitude. It serves as a cleaned and location-enriched reference for place name detection.
+
+Finally, the README.md file (this document) provides a detailed explanation of the project structure, what each file does, and how users can run and understand the code. This organization helps keep the project maintainable, readable, and easy to extend.
 
 
 ---
