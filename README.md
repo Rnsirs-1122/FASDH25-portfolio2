@@ -29,7 +29,7 @@ FASDH25-PORTFOLIO2
 	|-----README
 ---
 
-##  How the Script Works  
+##  How the Script Works 
 
 ###  **Load the Gazetteer (List of Place Names)**  
 The script reads the **gazetteer** (`geonames_gaza_selection.tsv`).
@@ -84,33 +84,41 @@ Gaza 	2023-10	14
 Rafah	2023-11	8
 Khan Younis	2023-11	6
 
+# 2B. Using Stanza to Extract Place Names from News Corpus
+## Overview
+This project extracts all the place entities that are refered to **places** (GPE/LOC) from a large corpus of news articles using the **Stanza NLP library**. The extracted data focuses specifically on **articles written in January 2024**. The final output is a cleaned and normalized list of place names along with their frequency counts, saved in a `ner_counts.tsv` file.
 
+### 1. Install and Import Stanza
+We installed the `stanza` library and downloaded the English language model to perform tokenization and Named Entity Recognition (NER).
 
+```python
+!pip install stanza
+import stanza
+stanza.download("en")
+nlp = stanza.Pipeline(lang="en", processors='tokenize,ner')
 
+### We cloned our FASDH25-portfolio2 repository which contains the complete corpus of articles.
+### We navigated to the /articles folder and selected only those articles that were written in January 2024, using a condition that checks filenames.
+### Using the Stanza pipeline, we analyzed each file and extracted entities labeled as GPE (Geo-Political Entities) or LOC (Locations). These were stored in a dictionary with their frequency.
+### We cleaned up the extracted entities to merge duplicates and improve consistency by:
 
+Removing possessives (’s, 's)
 
+Removing punctuation
 
+Removing leading "the" in names
+### We saved the final dictionary into a .tsv file (ner_counts.tsv) with two columns: name and frequency.
+### We printed the file to ensure it was correctly formatted. 
+### ner_counts.tsv: A tab-separated file containing place names and how frequently they appear in January 2024 articles.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Gaza_NER2_<your_groupname>.ipynb: The notebook has been renamed with our group name and uploaded to the repository.
 
 #  Named Entity Recognition (NER) Gazetteer Builder
 
 This project takes a list of place names fetched through NER and extracts their geographical coordinates using the **GeoNames API**. The end goal is to build a **gazetteer** a structured table of places along with their latitude and longitude.
 
 ---
+# C Create a gazetteer for the NER places 
 
 ##  What This Project Does
 
@@ -162,4 +170,58 @@ Step 4: Downloading the final script
 
 Step 5: Manually adding coordinates for the places specified with NA with the help go Google Maps
 
+# 4A. Map the regex-extracted placenames 
+## Regex-Based Place Name Mapping with Plotly
+
+We visualized place names extracted using **regular expressions** by mapping their frequency across time and space using `plotly.express`.
+
+### Steps Followed
+
+1. **Data Source**: We used `regex_counts.tsv` which contains place names, their frequencies, and the corresponding month of publication.
+2. **Geocoding**: Each unique place was geocoded using the `geopy` library and OpenStreetMap’s Nominatim API to obtain latitude and longitude.
+3. **Mapping**: We used `plotly.express.scatter_geo` to plot an animated map where each frame represents a different month. The bubble size and color represent the frequency of mentions.
+
+### Design Choices
+
+- **Animation by Month**: This allows users to explore changes over time interactively.
+- **Bubble Size & Color**: Both scaled by frequency to intuitively represent intensity of place mentions.
+- **Projection**: We used the `natural earth` projection for a clean global view.
+- **Dark Theme**: `plotly_dark` was chosen for better visual contrast.
+
+### Saved Outputs
+
+- `regex_map.html`: Fully interactive map (animation, zoom, hover).
+- `regex_map.png`: Static image for presentations or reports.
+
+This approach provides both **temporal** and **spatial** context for place name frequencies in the corpus, making patterns easy to detect over time.
+
+# 4B. Map the NER-extracted placenames 
+## NER-Based Mapping of Place Name Frequencies (January 2024)
+
+We used Named Entity Recognition (NER) via the Stanza NLP library to extract place names from news articles dated **January 2024**. 
+
+### Data Sources
+
+- `ner_counts.tsv`: Contains place names and their frequencies from January 2024 articles.
+- `NER_gazetteer.tsv`: Contains geocoded latitude and longitude for each place.
+
+### Visualization
+
+Using `plotly.express`, we created a **static and interactive map** to display the geographical distribution and frequency of place mentions.
+
+### Design Choices
+
+- **Bubble Size & Color**: Represent the frequency of place mentions.
+- **Projection**: Natural Earth — chosen for a balanced global view.
+- **Theme**: Dark for high contrast and readability.
+- **Interactivity**: Hover to view place names and zoom for detail.
+
+### Outputs
+
+- `ner_map.html`: An interactive map.
+- `ner_map.png`: A static image suitable for documentation or slides.
+
+Links for both the maps:
+file:///C:/Users/Haroon%20Traders/Downloads/FASDH25-portfolio2/Scripts/regex_map.html
+file:///C:/Users/Haroon%20Traders/Downloads/FASDH25-portfolio2/Scripts/NER_map.html
 
