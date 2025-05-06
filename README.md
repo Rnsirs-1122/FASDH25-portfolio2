@@ -84,3 +84,82 @@ Gaza 	2023-10	14
 Rafah	2023-11	8
 Khan Younis	2023-11	6
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#  Named Entity Recognition (NER) Gazetteer Builder
+
+This project takes a list of place names fetched through NER and extracts their geographical coordinates using the **GeoNames API**. The end goal is to build a **gazetteer** a structured table of places along with their latitude and longitude.
+
+---
+
+##  What This Project Does
+
+This script reads a file called `ner_counts.tsv`, which contains a list of place names mentioned in news articles or documents after January 2024. It then uses the **GeoNames geocoding API** to find the corresponding **latitude and longitude** for each place.
+
+The final result is a TSV file, saved as:
+NER_gazetteer.tsv
+
+## Working (Steps)
+
+**Reading the Place Names**
+   The script opens `ner_counts.tsv`, reads the place names line by line, and stores them in a list.
+
+**Geocoding Each Place**
+   For each place, the script uses a function get_coordinates() that sends a query to the [GeoNames API](https://www.geonames.org/).
+ It fetches the first matching result (if available) and extracts its latitude and longitude.
+
+**Missing Coordinates**
+ If no result is found via the API, the coordinates are marked as "NA".
+
+**Manual Filling Coordinates**
+After the initial script run, any `"NA"` entries are manually researched using **Google Maps** and updated in the final `NER_gazetteer.tsv` file with the help of **Google Spreadsheets** and the final tsv file is saved back to the portfolio folder.
+
+**Writing the Output:**
+ The script writes the final coordinates to a file in the `gazetteer/` folder, with proper tab-separated formatting.
+
+---
+
+How The Project is organized
+
+|——build_gazetteer.py 
+|——ner_counts.tsv 
+|── gazetteer/
+│ └──  NER_gazetteer.tsv # Output: name, latitude, longitude
+├── README.md # This documentation
+
+
+---
+
+##  How To Run the Project
+
+### Step 1: Install Python Dependencies
+
+Step 2: Getting a GeoNames Username
+
+Step 3: Running the script
+
+Step 4: Downloading the final script
+
+Step 5: Manually adding coordinates for the places specified with NA with the help go Google Maps
+
+
